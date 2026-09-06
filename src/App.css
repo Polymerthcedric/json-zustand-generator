@@ -1,0 +1,167 @@
+.page {
+  min-height: 100svh;
+  padding: 32px 24px 64px;
+}
+
+.banner {
+  background: var(--code-bg);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  color: var(--text-h);
+  font-size: 14px;
+  line-height: 1.45;
+  margin: 0 auto 28px;
+  max-width: 1120px;
+  padding: 12px 16px;
+}
+
+.hero {
+  max-width: 760px;
+  margin: 0 auto 28px;
+}
+
+.eyebrow {
+  color: var(--accent);
+  font-family: var(--mono);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.lede {
+  color: var(--text);
+  font-size: 18px;
+  max-width: 42rem;
+}
+
+.toolbar {
+  display: flex;
+  gap: 12px;
+  justify-content: space-between;
+  margin: 0 auto 18px;
+  max-width: 1120px;
+}
+
+.toolbar label {
+  display: grid;
+  gap: 6px;
+  text-align: left;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: flex-end;
+}
+
+input,
+textarea,
+pre,
+button {
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  box-sizing: border-box;
+  font: inherit;
+}
+
+input,
+textarea,
+pre {
+  background: var(--code-bg);
+  color: var(--text-h);
+}
+
+input {
+  min-width: 260px;
+  padding: 12px 14px;
+}
+
+button {
+  align-self: end;
+  background: var(--bg);
+  color: var(--text-h);
+  cursor: pointer;
+  font-weight: 700;
+  padding: 12px 16px;
+}
+
+button.primary {
+  background: var(--text-h);
+  color: var(--bg);
+}
+
+button:disabled {
+  cursor: not-allowed;
+  opacity: 0.45;
+}
+
+.workspace {
+  display: grid;
+  gap: 18px;
+  grid-template-columns: 1fr 1fr;
+  margin: 0 auto;
+  max-width: 1120px;
+}
+
+.pane {
+  display: grid;
+  gap: 10px;
+  min-width: 0;
+  text-align: left;
+}
+
+.pane span {
+  color: var(--text-h);
+  font-weight: 700;
+}
+
+textarea,
+pre {
+  height: min(70svh, 640px);
+  margin: 0;
+  overflow: auto;
+  padding: 18px;
+  resize: vertical;
+}
+
+textarea,
+pre,
+code {
+  font-family: var(--mono);
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.output pre {
+  white-space: pre-wrap;
+}
+
+@media (max-width: 860px) {
+  .page {
+    padding: 20px 16px 48px;
+  }
+
+  .toolbar,
+  .workspace {
+    grid-template-columns: 1fr;
+  }
+
+  .toolbar {
+    display: grid;
+  }
+
+  .actions {
+    justify-content: stretch;
+  }
+
+  .actions button {
+    flex: 1;
+  }
+
+  input {
+    min-width: 0;
+    width: 100%;
+  }
+}
