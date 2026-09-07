@@ -67,7 +67,7 @@ function App() {
         DevSecOps starter — with rate limiting, RBAC auth, and a CI/deploy
         pipeline — is{' '}
         <a
-          href="https://devsecops-starter.vercel.app/buy"
+          href="https://starter.fidelco.dev/buy"
           className="banner-link"
         >
           on sale now
