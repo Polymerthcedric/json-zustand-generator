@@ -64,7 +64,15 @@ function App() {
     <main className="page">
       <p className="banner">
         Tired of writing boilerplate by hand? A production-ready Next.js
-        DevSecOps starter is coming — this tool stays free, with no signup.
+        DevSecOps starter — with rate limiting, RBAC auth, and a CI/deploy
+        pipeline — is{' '}
+        <a
+          href="https://devsecops-starter.vercel.app/buy"
+          className="banner-link"
+        >
+          on sale now
+        </a>
+        . This tool stays free, with no signup.
       </p>
 
       <section className="hero">
