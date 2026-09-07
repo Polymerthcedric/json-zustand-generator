@@ -145,30 +145,40 @@ export function generateStore(source: string, rawName: string): GenerateResult {
     const hookName = `use${pascal}Store`
 
     const fields = inferFields(parsed, registry)
-    registry.addInterface(stateName, fields)
+
+    const usedIdents = new Set<string>()
+    const keyed = fields.map((field) => {
+      let ident = toIdentifier(field.key) || 'value'
+      let candidate = ident
+      let n = 2
+      while (usedIdents.has(candidate)) candidate = `${ident}${n++}`
+      usedIdents.add(candidate)
+
+      return { ...field, raw: field.key, key: candidate, ident: candidate }
+    })
+
+    registry.addInterface(
+      stateName,
+      keyed.map(({ key, optional, type }) => ({ key, optional, type })),
+    )
     const actionsName = registry.take(`${pascal}Actions`)
 
-    const setters = fields.map((field) => ({
-      ...field,
-      ident: toIdentifier(field.key) || 'value',
-    }))
+    const remapped: Record<string, unknown> = {}
+    for (const setter of keyed) remapped[setter.key] = parsed[setter.raw]
 
-    const initial = JSON.stringify(parsed, null, 2)
+    const initial = JSON.stringify(remapped, null, 2)
     const types = registry.interfaces.join('\n\n')
     const actionBlock = [
-      ...setters.map(
+      ...keyed.map(
         (setter) =>
           `  set${capitalize(setter.ident)}: (${setter.ident}: ${setter.type}) => void`,
       ),
       '  reset: () => void',
     ].join('\n')
-    const implBlock = setters
+    const implBlock = keyed
       .map((setter) => {
-        const assignment =
-          setter.ident === setter.key
-            ? setter.ident
-            : `${safeKey(setter.key)}: ${setter.ident}`
-        return `  set${capitalize(setter.ident)}: (${setter.ident}) => set({ ${assignment} }),`
+        const assignment = `set({ ${setter.key}: ${setter.ident} })`
+        return `  set${capitalize(setter.ident)}: (${setter.ident}) => ${assignment},`
       })
       .join('\n')
 
@@ -206,12 +216,25 @@ export function formatJson(source: string) {
 }
 
 export function toIdentifier(value: string) {
-  const cleaned = value
+  const tokens = value
     .replace(/[^A-Za-z0-9]+/g, ' ')
     .trim()
     .split(/\s+/)
     .filter(Boolean)
-    .map((part, index) => (index === 0 ? part.toLowerCase() : capitalize(part)))
+
+  const words: string[] = []
+  for (const token of tokens) {
+    const parts =
+      token.match(/[A-Z]?[a-z]+|[A-Z]+(?![a-z])|\d+/g) ?? [token]
+    words.push(...parts)
+  }
+
+  const cleaned = words
+    .map((word, index) => {
+      const normalized = word === word.toUpperCase() ? word.toLowerCase() : word
+      if (index === 0) return normalized.toLowerCase()
+      return capitalize(normalized)
+    })
     .join('')
 
   if (!cleaned) return 'app'
@@ -261,7 +284,7 @@ function inferMergedObject(values: JsonObject[], name: string, registry: TypeReg
 }
 
 function inferType(value: unknown, preferredName: string, registry: TypeRegistry): string {
-  if (value === null) return 'null'
+  if (value === null) return 'unknown | null'
   if (Array.isArray(value)) return inferArray(value, preferredName, registry)
   if (isObject(value)) return inferObject(value, preferredName, registry)
   if (typeof value === 'string') return 'string'
@@ -286,7 +309,9 @@ function inferUnion(values: unknown[], preferredName: string, registry: TypeRegi
   }
 
   for (const value of rest) {
-    if (Array.isArray(value)) {
+    if (value === null) {
+      parts.push('null')
+    } else if (Array.isArray(value)) {
       parts.push(inferArray(value, `${preferredName}Item`, registry))
     } else {
       parts.push(inferType(value, preferredName, registry))
