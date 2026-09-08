@@ -28,9 +28,166 @@
       name="twitter:description"
       content="Paste JSON. Get a typed Zustand store instantly. Free, no signup."
     />
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "JSON to Zustand Converter",
+      "url": "https://tool.fidelco.dev/",
+      "description": "Paste JSON and generate TypeScript types plus a ready-to-use Zustand store. Free, no signup, runs in your browser.",
+      "applicationCategory": "DeveloperApplication",
+      "operatingSystem": "Web",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "author": {
+        "@type": "Person",
+        "name": "Fidel Cedric Odoyo",
+        "url": "https://fidelco.dev/"
+      }
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "How do I generate a Zustand store from JSON?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Paste your JSON into the input pane. The generator infers TypeScript interfaces for every nested object, unions for arrays, and an initial state — then emits the complete store code, ready to copy or download as a .ts file."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Is this JSON to Zustand converter free?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes — free, with no account and no signup. It runs entirely in your browser, and the source is public on GitHub."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How are TypeScript types inferred from JSON?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Primitive values map to boolean, number, and string. Arrays become typed unions — for example [true, 'x', 5, null] becomes (boolean | string | number | null)[] — and nested objects are flattened into their own interfaces, deduplicated by a name registry."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What happens to unsafe JSON keys?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Keys with special characters, kebab-case, or snake_case are sanitized to valid camelCase identifiers everywhere in the state shape, the initial state, and the action setters, so the generated code always compiles."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Do I need an account or internet connection to use it?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No. The tool runs client-side: your JSON never leaves the browser, and it works offline once the page is loaded."
+          }
+        }
+      ]
+    }
+    </script>
   </head>
   <body>
-    <div id="root"></div>
+    <main class="page">
+      <p class="banner">
+        Tired of writing boilerplate by hand? A production-ready Next.js
+        DevSecOps starter — with rate limiting, RBAC auth, and a CI/deploy
+        pipeline — is
+        <a href="https://starter.fidelco.dev/buy" class="banner-link"
+          >on sale now</a
+        >. This tool stays free, with no signup.
+      </p>
+
+      <section class="hero">
+        <p class="eyebrow">JSON to Zustand converter</p>
+        <h1>Generate a Zustand store from JSON</h1>
+        <p class="lede">
+          Paste JSON on the left. Get TypeScript types and a ready-to-use
+          Zustand store on the right. Runs in your browser.
+        </p>
+      </section>
+
+      <div id="root"></div>
+
+      <section class="seo" id="what-is">
+        <h2>What is a JSON to Zustand converter?</h2>
+        <p>
+          A JSON to Zustand converter turns a plain JSON object (or array) into
+          complete
+          <a href="https://github.com/pmndrs/zustand" rel="noopener">Zustand</a>
+          source code: TypeScript interfaces inferred from your data, an initial
+          state snapshot, typed setter actions, and a reset helper. Instead of
+          hand-writing the same boilerplate for every store, you paste JSON,
+          copy the generated store, and keep building.
+        </p>
+        <p>
+          Everything runs locally in your browser — no JSON is uploaded, there
+          is no signup, and it works offline.
+        </p>
+      </section>
+
+      <section class="seo" id="how-it-works">
+        <h2>How it works</h2>
+        <ol>
+          <li>Paste your JSON (or load a .json file) into the left pane.</li>
+          <li>
+            Optionally set a store name — it becomes your hook (useAppStore).
+          </li>
+          <li>Copy or download the generated .ts file.</li>
+          <li>
+            Connect it with <code>create(...)</code> and call setters like
+            setUser(...).
+          </li>
+        </ol>
+      </section>
+
+      <section class="seo faq" id="faq">
+        <h2>Frequently asked questions</h2>
+        <h3>How do I generate a Zustand store from JSON?</h3>
+        <p>
+          Paste your JSON into the input pane. The generator infers TypeScript
+          interfaces for every nested object, unions for arrays, and an initial
+          state — then emits the complete store code, ready to copy or download
+          as a .ts file.
+        </p>
+        <h3>Is this JSON to Zustand converter free?</h3>
+        <p>
+          Yes — free, with no account and no signup. It runs entirely in your
+          browser, and the source is public on GitHub.
+        </p>
+        <h3>How are TypeScript types inferred from JSON?</h3>
+        <p>
+          Primitive values map to boolean, number, and string. Arrays become
+          typed unions — for example <code>[true, 'x', 5, null]</code> becomes{' '}
+          <code>(boolean | string | number | null)[]</code> — and nested objects
+          are flattened into their own interfaces, deduplicated by a name
+          registry.
+        </p>
+        <h3>What happens to unsafe JSON keys?</h3>
+        <p>
+          Keys with special characters, kebab-case, or snake_case are sanitized
+          to valid camelCase identifiers everywhere in the state shape, the
+          initial state, and the action setters, so the generated code always
+          compiles.
+        </p>
+        <h3>Do I need an account or internet connection to use it?</h3>
+        <p>
+          No. The tool runs client-side: your JSON never leaves the browser, and
+          it works offline once the page is loaded.
+        </p>
+      </section>
+    </main>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>

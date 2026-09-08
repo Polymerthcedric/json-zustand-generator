@@ -145,6 +145,38 @@ code {
   white-space: pre-wrap;
 }
 
+.seo {
+  color: var(--text);
+  margin: 52px auto 0;
+  max-width: 760px;
+}
+
+.seo h2 {
+  color: var(--text-h);
+  font-size: 22px;
+  margin: 0 0 12px;
+}
+
+.seo h3 {
+  color: var(--text-h);
+  font-size: 16px;
+  margin: 26px 0 6px;
+}
+
+.seo p,
+.seo ol {
+  line-height: 1.65;
+}
+
+.seo ol {
+  padding-left: 20px;
+}
+
+.seo a {
+  color: var(--accent);
+  text-underline-offset: 3px;
+}
+
 @media (max-width: 860px) {
   .page {
     padding: 20px 16px 48px;

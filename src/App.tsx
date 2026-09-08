@@ -61,29 +61,7 @@ function App() {
   }
 
   return (
-    <main className="page">
-      <p className="banner">
-        Tired of writing boilerplate by hand? A production-ready Next.js
-        DevSecOps starter — with rate limiting, RBAC auth, and a CI/deploy
-        pipeline — is{' '}
-        <a
-          href="https://starter.fidelco.dev/buy"
-          className="banner-link"
-        >
-          on sale now
-        </a>
-        . This tool stays free, with no signup.
-      </p>
-
-      <section className="hero">
-        <p className="eyebrow">JSON to Zustand converter</p>
-        <h1>Generate a Zustand store from JSON</h1>
-        <p className="lede">
-          Paste JSON on the left. Get TypeScript types and a ready-to-use
-          Zustand store on the right. Runs in your browser.
-        </p>
-      </section>
-
+    <>
       <section className="toolbar" aria-label="Generator settings">
         <label>
           Store name
@@ -144,7 +122,7 @@ function App() {
           <pre>{result.ok ? result.code : result.error}</pre>
         </div>
       </section>
-    </main>
+    </>
   )
 }
 
