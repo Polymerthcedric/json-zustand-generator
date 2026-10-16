@@ -112,6 +112,155 @@ button:disabled {
   max-width: 1120px;
 }
 
+.copy-error {
+  color: #a12d25;
+  margin: -8px auto 16px;
+  max-width: 1120px;
+  font-size: 14px;
+}
+
+.state-tree {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  margin: 24px auto 0;
+  max-width: 1120px;
+  padding: 22px;
+}
+
+.tree-heading {
+  align-items: start;
+  display: flex;
+  gap: 16px;
+  justify-content: space-between;
+  margin-bottom: 14px;
+}
+
+.tree-heading h2 {
+  color: var(--text-h);
+  font-size: 20px;
+  letter-spacing: -0.03em;
+  margin: 0;
+}
+
+.tree-heading p,
+.tree-empty {
+  color: var(--text);
+  font-size: 14px;
+  margin-top: 4px;
+}
+
+.tree-count,
+.tree-type {
+  color: var(--text);
+  font-family: var(--mono);
+  font-size: 12px;
+}
+
+.tree-count {
+  white-space: nowrap;
+}
+
+.tree-list,
+.tree-children {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.tree-list {
+  display: grid;
+  gap: 7px;
+}
+
+.tree-node > details {
+  align-items: center;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+}
+
+.tree-node > details > summary {
+  align-items: center;
+  background: var(--code-bg);
+  border-radius: 10px;
+  cursor: pointer;
+  display: flex;
+  gap: 10px;
+  grid-column: 1 / 2;
+  min-height: 42px;
+  min-width: 0;
+  padding: 8px 12px 8px 28px;
+  position: relative;
+}
+
+.tree-node > details > summary::marker {
+  color: var(--accent);
+  font-size: 12px;
+}
+
+.tree-name {
+  color: var(--text-h);
+  font-family: var(--mono);
+  font-size: 13px;
+  overflow-wrap: anywhere;
+}
+
+.tree-type {
+  margin-left: auto;
+  white-space: nowrap;
+}
+
+.tree-toggle {
+  align-items: center;
+  color: var(--text);
+  display: flex;
+  font-size: 12px;
+  gap: 7px;
+  grid-column: 2 / 3;
+  padding: 8px 4px 8px 12px;
+  white-space: nowrap;
+}
+
+.tree-toggle input {
+  accent-color: var(--accent);
+  height: 16px;
+  margin: 0;
+  min-width: 16px;
+  width: 16px;
+}
+
+.tree-children {
+  border-left: 1px solid var(--border);
+  display: grid;
+  gap: 6px;
+  grid-column: 1 / -1;
+  margin: 5px 0 3px 16px;
+  padding: 5px 0 5px 12px;
+}
+
+.tree-children .tree-node > details > summary {
+  background: transparent;
+  min-height: 30px;
+  padding-bottom: 4px;
+  padding-top: 4px;
+}
+
+.tree-leaf {
+  align-items: center;
+  background: var(--code-bg);
+  border-radius: 10px;
+  display: flex;
+  gap: 10px;
+  min-height: 42px;
+  padding: 8px 12px;
+}
+
+.tree-more {
+  color: var(--text);
+  font-size: 12px;
+  padding: 4px 8px;
+}
+
 .pane {
   display: grid;
   gap: 10px;
@@ -197,6 +346,24 @@ code {
 
   .actions button {
     flex: 1;
+  }
+
+  .state-tree {
+    padding: 16px;
+  }
+
+  .tree-heading {
+    display: grid;
+  }
+
+  .tree-node > details > summary {
+    grid-column: 1 / -1;
+  }
+
+  .tree-toggle {
+    grid-column: 1 / -1;
+    justify-self: end;
+    padding-top: 0;
   }
 
   input {

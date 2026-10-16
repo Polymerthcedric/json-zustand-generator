@@ -8,8 +8,10 @@ Free, no signup, runs entirely in the browser. Built as a zero-backend search to
 
 - **Type inference from data** — arrays become unions (`[true, 'x', 5, null]` → `(boolean | string | number | null)[]`), nested objects are flattened into their own interfaces, and array keys singularize (`items` → `Item`).
 - **Collision-safe naming** — a `TypeRegistry` dedupes anonymous object names (`Profile`, `Profile2`, …) so generated types never overwrite each other.
-- **Universal key sanitization** — `MAX_CONNECTIONS_ALLOWED`, `api_version_id`, and `auth/provider/endpoint` become valid `camelCase` in the state shape, initial state, and action setters.
+- **Top-level key sanitization** — top-level keys become valid `camelCase` store fields and action names. Nested payload keys keep their original API names, quoted when needed for valid TypeScript.
 - **Null handling** — a standalone `null` maps to `unknown | null` so setters accept real values; when a nullable field appears across objects in an array, the parser unifies the schema across entries and emits `T | null` automatically.
+- **State-tree preview** — inspect nested objects and arrays before copying. Lock a top-level branch to remove its setter action and generate a deeply `readonly` TypeScript type for that branch.
+- **Private by design** — parsing and generation happen in the browser; JSON files are read locally and are not uploaded.
 
 ## How it works
 

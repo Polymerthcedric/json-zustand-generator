@@ -91,7 +91,7 @@
           "name": "What happens to unsafe JSON keys?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Keys with special characters, kebab-case, or snake_case are sanitized to valid camelCase identifiers everywhere in the state shape, the initial state, and the action setters, so the generated code always compiles."
+            "text": "Top-level JSON keys are converted into valid camelCase store fields and setter names. Nested object keys preserve the API's original names, quoted when needed for valid TypeScript."
           }
         },
         {
@@ -126,7 +126,8 @@
         <h1>Generate a Zustand store from JSON</h1>
         <p class="lede">
           Paste JSON on the left. Get TypeScript types and a ready-to-use
-          Zustand store on the right. Runs in your browser.
+          Zustand store on the right. Inspect the state tree and lock branches
+          that should not have setter actions. Runs in your browser.
         </p>
       </section>
 
@@ -155,6 +156,9 @@
           <li>Paste your JSON (or load a .json file) into the left pane.</li>
           <li>
             Optionally set a store name — it becomes your hook (useAppStore).
+          </li>
+          <li>
+            Inspect the state tree and mark top-level branches read-only if needed.
           </li>
           <li>Copy or download the generated .ts file.</li>
           <li>
@@ -188,10 +192,9 @@
         </p>
         <h3>What happens to unsafe JSON keys?</h3>
         <p>
-          Keys with special characters, kebab-case, or snake_case are sanitized
-          to valid camelCase identifiers everywhere in the state shape, the
-          initial state, and the action setters, so the generated code always
-          compiles.
+          Top-level JSON keys become valid camelCase store fields and setter
+          names. Nested object keys preserve the API&apos;s original names,
+          quoted when needed for valid TypeScript.
         </p>
         <h3>Do I need an account or internet connection to use it?</h3>
         <p>
