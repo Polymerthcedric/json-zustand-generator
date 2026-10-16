@@ -22,6 +22,11 @@ npm install
 npm run dev
 ```
 
-`npm run build` emits a static site you can drop on Cloudflare Pages or any other free static host.
+`npm run build` emits the static site into `dist/`. The included Wrangler
+configuration serves those files as a Cloudflare Worker Static Assets site.
+After signing in with `npx wrangler login`, run `npm run deploy:cloudflare` to
+build and deploy it. You can also publish `dist/` through Cloudflare Pages or
+another static host. See [Workers Static Assets](https://developers.cloudflare.com/workers/static-assets/)
+and [Wrangler configuration](https://developers.cloudflare.com/workers/wrangler/configuration/).
 
 Live: https://tool.fidelco.dev
