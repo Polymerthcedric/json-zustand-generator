@@ -2,7 +2,7 @@
 
 Paste JSON. Get TypeScript types and a ready-to-use Zustand store.
 
-Free, no signup, runs entirely in the browser. Built as a zero-backend search tool: developers looking for `json to zustand converter` or `generate zustand store from JSON` can use it immediately.
+Free, no signup, and runs in your browser. Paste an example JSON object to get a TypeScript interface and Zustand store you can copy into your project.
 
 ## Features
 
@@ -15,7 +15,7 @@ Free, no signup, runs entirely in the browser. Built as a zero-backend search to
 
 ## How it works
 
-The generator parses JSON client-side and walks the resulting object graph: primitive values map to `boolean`/`number`/`string`, arrays route through a union-inference pass, and nested objects are claimed through a name registry. No server, no upload — your JSON never leaves the browser; the store compiles under `tsc --strict`.
+The generator reads JSON in the browser and builds TypeScript types for its objects, arrays, and primitive values. It does not upload your input.
 
 ```bash
 npm install
