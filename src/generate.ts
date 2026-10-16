@@ -85,6 +85,7 @@ type JsonObject = Record<string, unknown>
 type Field = {
   key: string
   optional: boolean
+  readOnly?: boolean
   type: string
 }
 
@@ -113,7 +114,7 @@ class TypeRegistry {
         : `export interface ${name} {\n${fields
             .map(
               (field) =>
-                `  ${safeKey(field.key)}${field.optional ? '?' : ''}: ${field.type}`,
+                `  ${field.readOnly ? 'readonly ' : ''}${safeKey(field.key)}${field.optional ? '?' : ''}: ${field.readOnly ? `DeepReadonly<${field.type}>` : field.type}`,
             )
             .join('\n')}\n}`
 
@@ -125,7 +126,11 @@ export type GenerateResult =
   | { ok: true; code: string }
   | { ok: false; error: string }
 
-export function generateStore(source: string, rawName: string): GenerateResult {
+export function generateStore(
+  source: string,
+  rawName: string,
+  readOnlyKeys: ReadonlySet<string> = new Set(),
+): GenerateResult {
   try {
     let parsed: unknown = JSON.parse(source)
 
@@ -154,12 +159,18 @@ export function generateStore(source: string, rawName: string): GenerateResult {
       while (usedIdents.has(candidate)) candidate = `${ident}${n++}`
       usedIdents.add(candidate)
 
-      return { ...field, raw: field.key, key: candidate, ident: candidate }
+      return {
+        ...field,
+        readOnly: readOnlyKeys.has(field.key),
+        raw: field.key,
+        key: candidate,
+        ident: candidate,
+      }
     })
 
     registry.addInterface(
       stateName,
-      keyed.map(({ key, optional, type }) => ({ key, optional, type })),
+      keyed.map(({ key, optional, readOnly, type }) => ({ key, optional, readOnly, type })),
     )
     const actionsName = registry.take(`${pascal}Actions`)
 
@@ -168,14 +179,22 @@ export function generateStore(source: string, rawName: string): GenerateResult {
 
     const initial = JSON.stringify(remapped, null, 2)
     const types = registry.interfaces.join('\n\n')
+    const editable = keyed.filter((field) => !field.readOnly)
+    const deepReadonly = keyed.some((field) => field.readOnly)
+      ? `export type DeepReadonly<T> = T extends readonly unknown[]
+  ? ReadonlyArray<DeepReadonly<T[number]>>
+  : T extends object
+    ? { readonly [K in keyof T]: DeepReadonly<T[K]> }
+    : T`
+      : ''
     const actionBlock = [
-      ...keyed.map(
+      ...editable.map(
         (setter) =>
           `  set${capitalize(setter.ident)}: (${setter.ident}: ${setter.type}) => void`,
       ),
       '  reset: () => void',
     ].join('\n')
-    const implBlock = keyed
+    const implBlock = editable
       .map((setter) => {
         const assignment = `set({ ${setter.key}: ${setter.ident} })`
         return `  set${capitalize(setter.ident)}: (${setter.ident}) => ${assignment},`
@@ -186,7 +205,7 @@ export function generateStore(source: string, rawName: string): GenerateResult {
       ok: true,
       code: `import { create } from 'zustand'
 
-${types}
+${deepReadonly ? `${deepReadonly}\n\n` : ''}${types}
 
 export interface ${actionsName} {
 ${actionBlock}
