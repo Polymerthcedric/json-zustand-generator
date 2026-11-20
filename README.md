@@ -30,3 +30,9 @@ another static host. See [Workers Static Assets](https://developers.cloudflare.c
 and [Wrangler configuration](https://developers.cloudflare.com/workers/wrangler/configuration/).
 
 Live: https://tool.fidelco.dev
+
+Source: https://github.com/Polymerthcedric/json-zustand-generator
+
+## License
+
+MIT — see [LICENSE](LICENSE).
