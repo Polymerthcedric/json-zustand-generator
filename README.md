@@ -24,14 +24,23 @@ npm run dev
 
 `npm run build` emits the static site into `dist/`. The included Wrangler
 configuration serves those files as a Cloudflare Worker Static Assets site.
-After signing in with `npx wrangler login`, run `npm run deploy:cloudflare` to
-build and deploy it. You can also publish `dist/` through Cloudflare Pages or
-another static host. See [Workers Static Assets](https://developers.cloudflare.com/workers/static-assets/)
+Cloudflare Workers Builds runs on every push and deploys that Worker. You can
+also deploy by signing in with `npx wrangler login` and running
+`npm run deploy:cloudflare`. See [Workers Static Assets](https://developers.cloudflare.com/workers/static-assets/)
 and [Wrangler configuration](https://developers.cloudflare.com/workers/wrangler/configuration/).
 
 Live: https://tool.fidelco.dev
 
 Source: https://github.com/Polymerthcedric/json-zustand-generator
+
+### Note on the live domain
+
+The `tool.fidelco.dev` hostname currently serves a Vercel deployment. This
+repository has no Vercel Git integration, so a push here updates the Cloudflare
+Worker but does not update that hostname. To publish a change to the live site,
+either redeploy the Vercel project or point `tool.fidelco.dev` at the Cloudflare
+Worker. Until one of those happens, the live page may show older copy than this
+repository.
 
 ## License
 
