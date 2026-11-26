@@ -1,6 +1,7 @@
 import { useMemo, useRef, useState } from 'react'
 import './App.css'
 import { formatJson, generateStore, toIdentifier } from './generate.ts'
+import { parseStateTree, type StateNode } from './stateTree.ts'
 
 const sampleJson = `{
   "user": {
@@ -186,57 +187,6 @@ function App() {
   )
 }
 
-type StateNode = {
-  name: string
-  type: string
-  children: StateNode[]
-  omitted?: number
-}
-
-const MAX_TREE_CHILDREN = 20
-
-function parseStateTree(source: string): StateNode[] | null {
-  try {
-    let value: unknown = JSON.parse(source)
-    if (Array.isArray(value)) value = { items: value }
-    if (!value || typeof value !== 'object') return null
-    return Object.entries(value).map(([name, child]) => makeNode(name, child))
-  } catch {
-    return null
-  }
-}
-
-function makeNode(name: string, value: unknown): StateNode {
-  if (Array.isArray(value)) {
-    const sample = value[0]
-    const children =
-      sample && typeof sample === 'object'
-        ? Object.entries(sample)
-            .slice(0, MAX_TREE_CHILDREN)
-            .map(([key, child]) => makeNode(key, child))
-        : []
-    const omitted =
-      sample && typeof sample === 'object'
-        ? Math.max(0, Object.keys(sample).length - MAX_TREE_CHILDREN)
-        : 0
-    return { name, type: `array · ${value.length}`, children, omitted }
-  }
-
-  if (value !== null && typeof value === 'object') {
-    const entries = Object.entries(value)
-    return {
-      name,
-      type: 'object',
-      children: entries
-        .slice(0, MAX_TREE_CHILDREN)
-        .map(([key, child]) => makeNode(key, child)),
-      omitted: Math.max(0, entries.length - MAX_TREE_CHILDREN),
-    }
-  }
-
-  return { name, type: value === null ? 'null' : typeof value, children: [] }
-}
-
 function TreeNode({
   node,
   isRoot = false,
@@ -250,7 +200,10 @@ function TreeNode({
 }) {
   const title = (
     <>
-      <span className="tree-name">{node.name}</span>
+      <span className="tree-name">
+        {node.name}
+        {node.optional ? '?' : ''}
+      </span>
       <code className="tree-type">{node.type}</code>
     </>
   )
