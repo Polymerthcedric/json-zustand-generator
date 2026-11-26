@@ -33,14 +33,14 @@ Live: https://tool.fidelco.dev
 
 Source: https://github.com/Polymerthcedric/json-zustand-generator
 
-### Note on the live domain
+### Live domain deployments
 
-The `tool.fidelco.dev` hostname currently serves a Vercel deployment. This
-repository has no Vercel Git integration, so a push here updates the Cloudflare
-Worker but does not update that hostname. To publish a change to the live site,
-either redeploy the Vercel project or point `tool.fidelco.dev` at the Cloudflare
-Worker. Until one of those happens, the live page may show older copy than this
-repository.
+The `tool.fidelco.dev` hostname currently serves a Vercel deployment, and the
+Vercel project is connected to this GitHub repository for automatic deployments.
+Vercel uses the project's configured production branch for live deployments;
+other branch pushes can create preview deployments. The Cloudflare Worker is a
+separate deployment target, so a repository change may deploy to both providers
+without changing which one owns `tool.fidelco.dev`.
 
 ## License
 
